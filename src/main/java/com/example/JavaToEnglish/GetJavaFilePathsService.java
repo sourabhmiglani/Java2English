@@ -1,10 +1,14 @@
 package com.example.JavaToEnglish;
 
+import org.springframework.stereotype.Service;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class getJavaFilePathService {
+
+@Service
+public class GetJavaFilePathsService {
 
     public void iterateoverJavaFiles(File folder,List<String> filePaths){
 
