@@ -25,7 +25,7 @@ public void cloneRepo(String localFolderPath,String repoUrl){
         // Close the Git object
         git.close();
     } catch (Exception e) {
-        e.printStackTrace();
+//        e.printStackTrace();
         System.err.println("Failed to clone repository.");
     }
 }
