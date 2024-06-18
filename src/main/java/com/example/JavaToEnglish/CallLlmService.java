@@ -27,7 +27,7 @@ public class CallLlmService {
 
     // Calls the OpenAI API to get a summary of the Java file content
     public String callLlm(String fileContent,String gptVersion) {
-       String API_KEY = "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";
+       String API_KEY = "****";
         System.out.println(API_KEY);
         String url = "https://api.openai.com/v1/chat/completions";
         String model = gptVersion;
