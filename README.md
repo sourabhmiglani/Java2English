@@ -1,5 +1,5 @@
 
-It retrieves Java code, processes it through a language model to generate an English summary, and stores the summary.
+It retrieves Java code, Feeds it to a Large language model to generate an English summary, and stores the summary.
 
 Use Case:-
 a. For New Joinees to reduce their dependency on kt videos and other developers.
