@@ -1,4 +1,6 @@
 
+It retrieves Java code, processes it through a language model to generate an English summary, and stores the summary.
+
 Use Case:-
 a. For New Joinees to reduce their dependency on kt videos and other developers.
 b. For Buisness Analysts/Non tech guys to reduce their dependency on Developer.
