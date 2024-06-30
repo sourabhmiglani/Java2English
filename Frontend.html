@@ -1,42 +1,58 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>WebSocket Example</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <title>J2E Frontend</title>
+    <script src="https://cdn.jsdelivr.net/sockjs/1.0.3/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
 </head>
 <body>
-<div id="timeline"></div>
-<button onclick="storeData()">Store Data</button>
+<h1>J2E Frontend</h1>
+<button onclick="connect()">Connect to Websocket</button>
+
+<h2>Convert Java to English</h2>
+<input type="text" id="repoPath" placeholder="Repository Link"/>
+<input type="text" id="gptVersion" placeholder="GPT Version"/>
+<button onclick="convertJavaToEnglish()">Convert</button>
+
+<div id="response"></div>
+
 <script>
     var stompClient = null;
 
-    function connectWebSocket(callback) {
-        var socket = new SockJS('/ws');
+    function connect() {
+        var socket = new SockJS('http://localhost:8080/ws-endpoint');
         stompClient = Stomp.over(socket);
         stompClient.connect({}, function (frame) {
             console.log('Connected: ' + frame);
-            stompClient.subscribe('/topic/timeline', function (message) {
-                showData(JSON.parse(message.body));
+            stompClient.subscribe('/brk/j2e/client', function (messageOutput) {
+                showMessage(JSON.parse(messageOutput.body));
             });
-            callback();
-        }, function (error) {
-            console.log('Connection error: ', error);
         });
     }
 
-    function storeData() {
-        connectWebSocket(function() {
-            var data = { value: "Some Data" }; // Replace with actual data
-            stompClient.send("/app/saveData", {}, JSON.stringify(data));
-        });
+    function convertJavaToEnglish() {
+        var repoPath = document.getElementById('repoPath').value;
+        var gptVersion = document.getElementById('gptVersion').value;
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "http://localhost:8080/convert", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                showMessage(xhr.responseText);
+            }
+        };
+
+        xhr.send("repoPath=" + encodeURIComponent(repoPath) + "&gptVersion=" + encodeURIComponent(gptVersion));
     }
 
-    function showData(data) {
-        var timeline = document.getElementById('timeline');
-        var entry = document.createElement('div');
-        entry.innerHTML = "New data: " + data.value;  // Adjust based on your data structure
-        timeline.appendChild(entry);
+    function showMessage(message) {
+        var responseElement = document.getElementById('response');
+        var newMessage = document.createElement('p');
+        console.log("Mesage")
+        newMessage.appendChild(document.createTextNode('Message from server: ' + JSON.stringify(message)));
+        responseElement.appendChild(newMessage);
     }
 </script>
 </body>
