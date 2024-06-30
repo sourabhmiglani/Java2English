@@ -1,5 +1,8 @@
-package com.example.JavaToEnglish;
+package com.example.JavaToEnglish.Controller;
 
+import com.example.JavaToEnglish.Service.CallLlmService;
+import com.example.JavaToEnglish.Service.CloneRepositoryService;
+import com.example.JavaToEnglish.Service.GetJavaFilePathsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,11 +40,7 @@ public class Controller {
         javaFilePaths.forEach(file -> {
             try {
                 String fileContent = Files.readString(Paths.get(file));
-//               System.out.println(fileContent);
 
-//                 System.out.println(file);
-                // Uncomment the f
-                // ollowing lines to use the LLM service
                  String fileSummary = "";
                  if(file.endsWith("CabLocationController.java")){
                      fileSummary = callLlmService.callLlm(fileContent,gptVersion);

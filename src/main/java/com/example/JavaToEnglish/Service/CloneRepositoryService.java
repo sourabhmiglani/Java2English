@@ -1,4 +1,4 @@
-package com.example.JavaToEnglish;
+package com.example.JavaToEnglish.Service;
 
 import org.eclipse.jgit.api.CloneCommand;
 import org.eclipse.jgit.api.Git;
@@ -26,7 +26,7 @@ public void cloneRepo(String localFolderPath,String repoUrl){
         git.close();
     } catch (Exception e) {
 //        e.printStackTrace();
-        System.err.println("Failed to clone repository.");
+        System.err.println(e.getMessage());
     }
 }
 }

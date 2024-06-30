@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Example</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+</head>
+<body>
+<div id="timeline"></div>
+<button onclick="storeData()">Store Data</button>
+<script>
+    var stompClient = null;
+
+    function connectWebSocket(callback) {
+        var socket = new SockJS('/ws');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function (frame) {
+            console.log('Connected: ' + frame);
+            stompClient.subscribe('/topic/timeline', function (message) {
+                showData(JSON.parse(message.body));
+            });
+            callback();
+        }, function (error) {
+            console.log('Connection error: ', error);
+        });
+    }
+
+    function storeData() {
+        connectWebSocket(function() {
+            var data = { value: "Some Data" }; // Replace with actual data
+            stompClient.send("/app/saveData", {}, JSON.stringify(data));
+        });
+    }
+
+    function showData(data) {
+        var timeline = document.getElementById('timeline');
+        var entry = document.createElement('div');
+        entry.innerHTML = "New data: " + data.value;  // Adjust based on your data structure
+        timeline.appendChild(entry);
+    }
+</script>
+</body>
+</html>

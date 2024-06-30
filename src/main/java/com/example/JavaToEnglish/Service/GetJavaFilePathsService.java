@@ -1,4 +1,4 @@
-package com.example.JavaToEnglish;
+package com.example.JavaToEnglish.Service;
 
 import org.springframework.stereotype.Service;
 
